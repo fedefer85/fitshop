@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar producto</title>
+    <link rel="stylesheet" href="./static/css/estilos.css">
+
+    <!-- AGREGAR el SCRIPT DE JAVA DE BOOTSTRAP 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+            
+    <!-- Bootstrap, CSS para USUARIO Y PASS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+
+    <!-- BLOQUE PARA QUE ACHIQUE TAMAÑO DE LETRA SEGÚN TAMAÑO PANTALLA
+    TAMBIEN QUIEBRA PALABRAS-->
+    <style type="text/css">
+    #contenedor {
+        font-size: 5vw;
+        /* word-break: break-all; */
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- AGREGAR LA SIGUIENTE BARRA NAV de BOOTSTRAP 4 --> 
+    
+    <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark bg-dark fixed-top">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Fitness shop</a>
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <!--<ul class="navbar-nav"> -->
+            <!-- para llevarlo a la derecha (si no anda probar con ms-auto) -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="altas.html">Alta de producto</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="modificaciones.html">Editar producto</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="listado.html">Stock de productos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="listadoEliminar.html">Eliminar producto</a>
+                </li>
+    
+    
+            </ul>
+        </div>
+    </nav>
+      
+    <!-- <header>
+        <nav class="navbar-index ">
+            <img class="logo-nav" src="./static/imagenes/logos-nav.webp" alt="logo agencia de aprendizaje">
+        </nav>
+    </header> -->
+
+    <div>
+        <!-- <div class="logo-centrado">
+            <img src="./static/imagenes/logo_Codo.jpg" alt="logo">
+        </div> -->
+        <h1 class="logo-centrado">Agregar producto nuevo:</h1><br>
+        
+        
+    <!--enctype="multipart/form-data" es necesario para enviar archivos al back.-->
+    <form id="formulario" enctype="multipart/form-data">
+        
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required><br>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" required><br>
+
+        <label for="precio">Precio:</label>
+        <input type="number" step="0.01" id="precio" name="precio" required><br>
+
+        <label for="imagenProducto">Imagen del producto:</label>
+        <input type="file" id="imagenProducto" name="imagen">
+
+        <br><br>
+        <label for="proveedorProducto">Proveedor:</label>
+        <input type="text" id="proveedorProducto" name="proveedor">
+        
+        <button type="submit">Agregar Producto</button>
+        <a href="index.html">Menu principal</a>
+    </form>
+    
+    <script>
+        // const URL = "http://127.0.0.1:5000/"
+        const URL = "https://fedefer85.pythonanywhere.com/"
+
+        //Al subir al servidor, deberá utilizarse la siguiente ruta. USUARIO debe ser reemplazado por el nombre de usuario de Pythonanywhere
+        //const URL = "https://USUARIO.pythonanywhere.com/"
+        
+
+        // Capturamos el evento de envío del formulario
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evitamos que se envie el form 
+
+            var formData = new FormData(this);
+    
+            // Realizamos la solicitud POST al servidor
+            fetch(URL + 'productos', {
+                method: 'POST',
+                body: formData // Aquí enviamos formData. Dado que formData puede contener archivos, no se utiliza JSON.
+            })
+
+            //Después de realizar la solicitud POST, se utiliza el método then() para manejar la respuesta del servidor.
+            .then(function (response) {
+                    if (response.ok) { 
+                        //Si la respuesta es exitosa, convierte los datos de la respuesta a formato JSON.
+                        return response.json(); 
+                    } else {
+                        // Si hubo un error, lanzar explícitamente una excepción
+                        // para ser "catcheada" más adelante
+                        throw new Error('Error al agregar el producto.');
+                    }
+            })
+
+                //Respuesta OK, muestra una alerta informando que el producto se agregó correctamente y limpia los campos del formulario para que puedan ser utilizados para un nuevo producto.
+                .then(function (data) {
+                    alert('Producto agregado correctamente.');
+                })
+
+                // En caso de error, mostramos una alerta con un mensaje de error.
+                .catch(function (error) {
+                    alert('Error al agregar el producto.');
+                })
+
+                // Limpiar el formulario en ambos casos (éxito o error)
+                .finally(function () {
+                    document.getElementById('descripcion').value = "";
+                    document.getElementById('cantidad').value = "";
+                    document.getElementById('precio').value = "";
+                    document.getElementById('imagenProducto').value = "";
+                    document.getElementById('proveedorProducto').value = "";
+                });
+        })
+    </script>
+</body>
+
+</html>
