@@ -8,12 +8,46 @@
 }
 
 body {
-    background-color: lightblue !important;
-    color: white;
+    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     transition: background-color 0.5s ease-in-out;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: move 20s infinite alternate;
+}
+
+body::before {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    left: -200px;
+}
+
+body::after {
+    width: 500px;
+    height: 500px;
+    bottom: -250px;
+    right: -250px;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(50vw, 50vh);
+    }
 }
 
 .contenedor-centrado {
