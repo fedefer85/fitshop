@@ -8,14 +8,15 @@
 }
 
 body {
-    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     transition: background-color 0.5s ease-in-out;
     color: white;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    min-height: 100vh; /* Asegura que el body tenga al menos la altura de la ventana */
+    overflow-x: hidden; /* Evita desplazamiento horizontal */
 }
 
 body::before,
@@ -125,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 
 form {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 80px auto; /* Ajusta el margen superior e inferior según sea necesario */
     padding: 20px;
     background-color: darkslategray;
     border: 1px solid lightslategray;
